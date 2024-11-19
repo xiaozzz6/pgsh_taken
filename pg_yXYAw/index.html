@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    
+    <meta charset="utf-8" />
+    
+    <title>PG Token Get</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta name="author" content="Avrinbai">
+    
+    <link rel="icon" href="favicon.ico">
+    
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    
+    <!-- Font Css-->
+    <link rel="stylesheet" href="assets/font/HarmonySanc.css">
+    
+    <!-- axios js-->
+    <script src="https://cdn.jsdmirror.cn/npm/axios/dist/axios.min.js"></script>
+    
+</head>
+
+
+<body>
+    <div class="auth-page">
+        <div class="container-fluid p-0">
+            <div class="row g-0">
+                <div class="col-xxl-12 col-lg-12 col-md-5">
+                    <div class="auth-full-page-content d-flex p-sm-5 p-4">
+                        <div class="w-100">
+                            <div class="d-flex flex-column h-100">
+                                <div class="auth-content my-auto">
+                                    <div class="text-center">
+                                        <img style="box-shadow: 0 0.5rem 1rem rgb(218 221 222 / 53%);" class="img-thumbnail rounded-circle avatar-xl mb-3" alt="150x150" src="assets/img/logo.png" data-holder-rendered="true">
+                                        <h5 class="mb-0">PG Token Get</h5>
+                                        <p class="text-muted mt-2">
+                                            H5 & APP
+                                        </p>
+                                    </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">手机号</label>
+                                            <input type="phone" class="form-control" id="phoneInput" name="phone"
+                                                placeholder="电话号码" />
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                         <label for="scriptSelector" class="form-label">登录方式</label>
+                                          <select id="scriptSelector" onchange="loadScript()" class="form-select">
+                                          <option>请选择</option>
+                                          <option value="h5">网页端</option>
+                                          <option value="app">APP端</option>
+                                          </select>
+                                        </div>
+                                        
+                                         <div class="mb-3">
+                                            <label class="form-label">验证码</label>
+                                            <input type="code" class="form-control" id="verifyInput" name="verify"
+                                                placeholder="验证码" />
+                                        </div>
+                                                    
+                                        <div class="mb-3">
+                                         <div class="d-flex justify-content-between align-items-center">
+                                         <button style="width: 47%;" onclick="sendPostRequest()" type="button" class="btn btn-primary w-40 waves-effect waves-light">发送验证码</button>
+                                         <button style="width: 47%;" onclick="verifyCode()" type="button" class="btn btn-primary w-40 waves-effect waves-light">登录</button>
+                                         </div>
+                                         </div>
+                                         
+                                         <div class="mb-3">
+                                            <label class="form-label">Token</label>
+                                            <input id="responseDisplay" class="form-control" value="" placeholder="登录成功后会显示在这里" readonly />
+                                        </div>
+                                        
+                                         <div class="mb-3">
+                                         <button  type="button" onclick="copy()" class="btn btn-primary w-100 waves-effect waves-light">复制</button>
+                                         </div>
+                                </div>
+                                <div class="mt-4 mt-md-5 text-center">
+                                    <p class="mb-0">
+                                        ©
+                                        <script>
+                                        document.write(new Date().getFullYear());
+                                        </script> Crafted with by <a href="https://avrinbai.cn">Avrinbai</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end auth full page content -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container fluid -->
+    </div>
+
+<script>
+    function loadScript() {
+        const selector = document.getElementById('scriptSelector');
+        const choice = selector.value;
+
+        if (choice === 'app') {
+            const proceed = window.confirm("App端会掉登录，是否继续？");
+            if (!proceed) {
+                return;
+            }
+        }
+
+        const script = document.createElement('script');
+        if (choice === 'h5') {
+            script.src = 'assets/js/h5.js';
+        } else if (choice === 'app') {
+            script.src = 'assets/js/app.js';
+        }
+
+        const oldScript = document.querySelector('body script[src*=".js"]:not([src*="axios"])');
+        if (oldScript) {
+            document.body.removeChild(oldScript);
+        }
+
+        document.body.appendChild(script);
+    }
+    
+   function updateResponseDisplay(token) {
+    const responseDisplay = document.getElementById("responseDisplay");
+    responseDisplay.value = token; // 动态更新 value 属性
+}
+
+
+</script>
+
+</body>
+</html>
